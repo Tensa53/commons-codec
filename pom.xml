@@ -72,16 +72,42 @@ limitations under the License.
       <version>2.20.0</version>
       <scope>test</scope>
     </dependency>
+      <!-- Dipendenze JUnit per API ed Extension -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.13.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
       <scope>test</scope>
+      <version>5.13.4</version>
     </dependency>
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-api</artifactId>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.junit.platform</groupId>
+          <artifactId>junit-platform-launcher</artifactId>
+          <version>1.13.4</version>
+          <scope>test</scope>
+      </dependency>
+      <!-- Dipendenza Jacoco per API -->
+      <dependency>
+          <groupId>org.jacoco</groupId>
+          <artifactId>org.jacoco.core</artifactId>
+          <version>0.8.13</version>
+      </dependency>
+      <!-- Dipendenza per XML -->
+      <dependency>
+          <groupId>cn.org.faster</groupId>
+          <artifactId>faster-core</artifactId>
+          <version>1.4.2.RELEASE</version>
+      </dependency>
     <!-- Dipendenze JMH -->
     <dependency>
         <groupId>org.openjdk.jmh</groupId>
@@ -117,14 +143,14 @@ limitations under the License.
     <!-- project.build.outputTimestamp is managed by Maven plugins, see https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
     <project.build.outputTimestamp>2025-07-22T19:09:05Z</project.build.outputTimestamp>
     <!-- JaCoCo: Don't make code coverage worse than: -->
-    <jacoco.skip>true</jacoco.skip>
-    <commons.jacoco.haltOnFailure>true</commons.jacoco.haltOnFailure>
-    <commons.jacoco.classRatio>0.92</commons.jacoco.classRatio>
-    <commons.jacoco.instructionRatio>0.91</commons.jacoco.instructionRatio>
-    <commons.jacoco.methodRatio>0.87</commons.jacoco.methodRatio>
-    <commons.jacoco.branchRatio>0.86</commons.jacoco.branchRatio>
-    <commons.jacoco.lineRatio>0.89</commons.jacoco.lineRatio>
-    <commons.jacoco.complexityRatio>0.84</commons.jacoco.complexityRatio>
+<!--    <jacoco.skip>true</jacoco.skip>-->
+<!--    <commons.jacoco.haltOnFailure>true</commons.jacoco.haltOnFailure>-->
+<!--    <commons.jacoco.classRatio>0.92</commons.jacoco.classRatio>-->
+<!--    <commons.jacoco.instructionRatio>0.91</commons.jacoco.instructionRatio>-->
+<!--    <commons.jacoco.methodRatio>0.87</commons.jacoco.methodRatio>-->
+<!--    <commons.jacoco.branchRatio>0.86</commons.jacoco.branchRatio>-->
+<!--    <commons.jacoco.lineRatio>0.89</commons.jacoco.lineRatio>-->
+<!--    <commons.jacoco.complexityRatio>0.84</commons.jacoco.complexityRatio>-->
   </properties>
   <build>
     <defaultGoal>clean verify apache-rat:check japicmp:cmp pmd:check checkstyle:check spotbugs:check javadoc:javadoc</defaultGoal>
@@ -229,6 +255,31 @@ limitations under the License.
           </ignores>
         </configuration>
       </plugin>
+        <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.13</version>
+            <!-- Configurazione plugin per intercettare l'output -->
+            <configuration>
+                <jmx>true</jmx>
+                <output>tcpserver</output>
+                <address>localhost</address>
+            </configuration>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <id>report</id>
+                    <phase>prepare-package</phase>
+                    <goals>
+                        <goal>report</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
         <!-- Plugin per JMH -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -342,14 +393,14 @@ limitations under the License.
 		<jdk>8</jdk>
 	  </activation>
       <properties>
-        <!-- JaCoCo: Don't make code coverage worse than: -->
-        <commons.jacoco.haltOnFailure>true</commons.jacoco.haltOnFailure>
-        <commons.jacoco.classRatio>0.96</commons.jacoco.classRatio>
-        <commons.jacoco.instructionRatio>0.97</commons.jacoco.instructionRatio>
-        <commons.jacoco.methodRatio>0.88</commons.jacoco.methodRatio>
-        <commons.jacoco.branchRatio>0.92</commons.jacoco.branchRatio>
-        <commons.jacoco.complexityRatio>0.88</commons.jacoco.complexityRatio>
-        <commons.jacoco.lineRatio>0.94</commons.jacoco.lineRatio>    
+<!--        &lt;!&ndash; JaCoCo: Don't make code coverage worse than: &ndash;&gt;-->
+<!--        <commons.jacoco.haltOnFailure>true</commons.jacoco.haltOnFailure>-->
+<!--        <commons.jacoco.classRatio>0.96</commons.jacoco.classRatio>-->
+<!--        <commons.jacoco.instructionRatio>0.97</commons.jacoco.instructionRatio>-->
+<!--        <commons.jacoco.methodRatio>0.88</commons.jacoco.methodRatio>-->
+<!--        <commons.jacoco.branchRatio>0.92</commons.jacoco.branchRatio>-->
+<!--        <commons.jacoco.complexityRatio>0.88</commons.jacoco.complexityRatio>-->
+<!--        <commons.jacoco.lineRatio>0.94</commons.jacoco.lineRatio>    -->
       </properties>
     </profile>
     <profile>
@@ -359,14 +410,14 @@ limitations under the License.
 		<jdk>[9,)</jdk>
 	  </activation>
       <properties>
-        <!-- JaCoCo: Don't make code coverage worse than: -->
-        <commons.jacoco.haltOnFailure>true</commons.jacoco.haltOnFailure>
-        <commons.jacoco.classRatio>0.96</commons.jacoco.classRatio>
-        <commons.jacoco.instructionRatio>0.97</commons.jacoco.instructionRatio>
-        <commons.jacoco.methodRatio>0.93</commons.jacoco.methodRatio>
-        <commons.jacoco.branchRatio>0.92</commons.jacoco.branchRatio>
-        <commons.jacoco.complexityRatio>0.90</commons.jacoco.complexityRatio>
-        <commons.jacoco.lineRatio>0.95</commons.jacoco.lineRatio>    
+<!--        &lt;!&ndash; JaCoCo: Don't make code coverage worse than: &ndash;&gt;-->
+<!--        <commons.jacoco.haltOnFailure>true</commons.jacoco.haltOnFailure>-->
+<!--        <commons.jacoco.classRatio>0.96</commons.jacoco.classRatio>-->
+<!--        <commons.jacoco.instructionRatio>0.97</commons.jacoco.instructionRatio>-->
+<!--        <commons.jacoco.methodRatio>0.93</commons.jacoco.methodRatio>-->
+<!--        <commons.jacoco.branchRatio>0.92</commons.jacoco.branchRatio>-->
+<!--        <commons.jacoco.complexityRatio>0.90</commons.jacoco.complexityRatio>-->
+<!--        <commons.jacoco.lineRatio>0.95</commons.jacoco.lineRatio>    -->
       </properties>
     </profile>
   </profiles>
